@@ -7,8 +7,11 @@ from selenium.webdriver.support.select import Select
 from datetime import date, time
 import smtplib
 
-PATH = "C:\Program Files (x86)\chromedriver.exe"
-driver = webdriver.Chrome(PATH)
+options = webdriver.ChromeOptions()
+options.binary_location = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+options.add_argument('headless')
+options.add_argument('window-size=1200x600')
+driver = webdriver.Chrome(options=options)
 
 driver.get("https://kultusministerium.hessen.de/ueber-uns/stellenangebote/stellenausschreibungen")
 
