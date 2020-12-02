@@ -4,23 +4,18 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
-#from selenium.webdriver.common.keys import Keys
-#import time
 from datetime import date, time
-#from datetime import time
 import smtplib
 
 PATH = "C:\Program Files (x86)\chromedriver.exe"
 driver = webdriver.Chrome(PATH)
 
 driver.get("https://kultusministerium.hessen.de/ueber-uns/stellenangebote/stellenausschreibungen")
-#print(driver.title)
 
 #Um auf die Auswahl zu kommen, muss das iframe ausgewählt werden.
 iframe = driver.find_element_by_class_name("hzd_iframe-processed")
 driver.switch_to.frame(iframe)
 
-#driver.implicitly_wait(5) # seconds
 #Warte bis die Seite fertig geladen hat
 try:
 	element =WebDriverWait(driver, 10).until(
@@ -75,14 +70,9 @@ except:
 row_count = len(driver.find_elements_by_xpath("/html/body/form/div/div[2]/div[6]/table/tbody/tr"))
 col_count = len(driver.find_elements_by_xpath("/html/body/form/div/div[2]/div[6]/table/tbody/tr[3]/td"))
 
-#print("Number of Rows", row_count)
-#print("Number of Columns", col_count)
-
 first_part='/html/body/form/div/div[2]/div[6]/table/tbody/tr['
 second_part=']/td['
 third_part=']'
-
-#/html/body/form/div/div[2]/div[6]/table/tbody/tr[3]/td[1]
 
 mailtext =""
 #erst in der zweiten Zeile anfangen, erste Zeile ist Überschriften
@@ -98,8 +88,6 @@ for n in range(3,row_count+1):
 
 #print (bla)
 driver.quit()
-
-#mailtext = [str(buchstabe) for buchstabe in mailtext]
 
 ####Mailverschickung
 subject = "Stellenausschreibungen vom " + str(date.today())
