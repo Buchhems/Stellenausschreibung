@@ -1,10 +1,14 @@
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 #from selenium.webdriver.common.keys import Keys
-import time
+#import time
+from datetime import date, time
+#from datetime import time
+import smtplib
 
 PATH = "C:\Program Files (x86)\chromedriver.exe"
 driver = webdriver.Chrome(PATH)
@@ -80,13 +84,32 @@ third_part=']'
 
 #/html/body/form/div/div[2]/div[6]/table/tbody/tr[3]/td[1]
 
+mailtext =""
 #erst in der zweiten Zeile anfangen, erste Zeile ist Überschriften
 #Columns die ersten beiden und letzte ist uninteressant
 for n in range(3,row_count+1):
+	mailtext = mailtext + "\n" + "\n" 
 	for m in range(3,col_count):
 		final_path = first_part + str(n) + second_part + str(m) + third_part
-		table_data = driver.find_element_by_xpath(final_path).text
-		print(table_data, end = " ")
-	print("")
+		#table_data = driver.find_element_by_xpath(final_path).text
+		#print(table_data, end = " ")
 
+		mailtext = mailtext + driver.find_element_by_xpath(final_path).text + " "
+
+#print (bla)
 driver.quit()
+
+#mailtext = [str(buchstabe) for buchstabe in mailtext]
+
+####Mailverschickung
+subject = "Stellenausschreibungen vom " + str(date.today())
+mail= smtplib.SMTP('smtp.web.de', 587)
+mail.ehlo()
+mail.starttls()
+sender = "laksdjflkasjdf@web.de"
+recipient = "salajsdfklajsdöfkjaskdljf@klasdfjaslködfj.de"
+mail.login('alkösjdfklasjdf@web.de','lkjasdflökjasdkflj')
+header='To:'+recipient+'\n'+'From:'+sender+'\n'+'subject:' + subject +'\n'
+content=header+mailtext
+mail.sendmail(sender,recipient,content.encode("utf-8"))
+mail.close
